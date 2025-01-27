@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 #define rep(i, n) for (int i = 0; i < (int)(n); i++)
 using namespace std;
-using A = vector<pair<string, int>>;
 
 int main() {
     const int n = 5;
