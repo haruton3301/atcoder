@@ -4,7 +4,7 @@ using namespace std;
 
 int main() {
     vector<int> a(3);
-    rep(i, n) cin >> a[i];
+    rep(i, 3) cin >> a[i];
 
     if (a[0] * a[1] == a[2] || a[0] * a[2] == a[1] || a[1] * a[2] == a[0]) {
         cout << "Yes" << endl;
