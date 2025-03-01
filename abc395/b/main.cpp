@@ -20,8 +20,5 @@ int main() {
         }
     }
 
-    rep(i, n) {
-        rep(j, n) { cout << a[i][j]; }
-        cout << endl;
-    }
+    rep(i, n) cout << a[i] << endl;
 }
