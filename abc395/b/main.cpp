@@ -6,13 +6,7 @@ int main() {
     int n;
     cin >> n;
 
-    vector<string> a(n);
-
-    rep(i, n) {
-        string buf = "";
-        rep(j, n) { buf += "?"; }
-        a[i] = buf;
-    }
+    vector<string> a(n, string(n, '?'));
 
     rep(i, n / 2 + 1) {
         for (int j = i; j < n - i; j++) {
@@ -27,7 +21,6 @@ int main() {
     }
 
     rep(i, n) {
-        string buf = "";
         rep(j, n) { cout << a[i][j]; }
         cout << endl;
     }
