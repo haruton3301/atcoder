@@ -1,41 +1,30 @@
 #include <bits/stdc++.h>
 #define rep(i, n) for (int i = 0; i < (int)(n); ++i)
 using namespace std;
+using ll = long long;
 
-void dfs(int current, int path, int goal, long long ans, vector<bool> &checked,
-         vector<int> &u, vector<int> &v, vector<long long> &w, int &m,
-         long long &min) {
+void dfs(int current, int goal, ll x, vector<bool> &checked, vector<int> &u,
+         vector<int> &v, vector<ll> &w, vector<vector<pair<int, int>>> &list,
+         int &m, ll &ans) {
     // 終了
-    if (path != -1 && checked[path]) {
+    if (checked[current]) {
         return;
     }
     if (current == goal) {
-        if (min == -1 || min > ans) {
-            min = ans;
-        }
-        // cout << "Goal" << ans << endl;
+        ans = min(ans, x);
         return;
     }
 
     // checked
-    if (path != -1) {
-        checked[path] = true;
-    }
+    checked[current] = true;
 
     // 生やす
-    rep(i, m) {
-        if (u[i] == current) {
-            dfs(v[i], i, goal, ans == -1 ? w[i] : ans ^ (long long)w[i],
-                checked, u, v, w, m, min);
-        } else if (v[i] == current) {
-            dfs(u[i], i, goal, ans == -1 ? w[i] : ans ^ (long long)w[i],
-                checked, u, v, w, m, min);
-        }
+    for (auto [to, index] : list[current]) {
+        dfs(to, goal, x ^ (long long)w[index], checked, u, v, w, list, m, ans);
     }
 
-    if (path != -1) {
-        checked[path] = false;
-    }
+    // checkedリセット
+    checked[current] = false;
 }
 
 int main() {
@@ -43,13 +32,24 @@ int main() {
     cin >> n >> m;
 
     vector<int> u(m), v(m);
-    vector<long long> w(m);
-    rep(i, m) cin >> u[i] >> v[i] >> w[i];
+    vector<ll> w(m);
+    vector<vector<pair<int, int>>> list(n);
+    rep(i, m) {
+        int a, b;
+        cin >> a >> b >> w[i];
+        a--;
+        b--;
+        u[i] = a;
+        v[i] = b;
 
-    vector<bool> checked(m, false);
-    long long min = -1;
+        list[a].push_back({b, i});
+        list[b].push_back({a, i});
+    }
 
-    dfs(1, -1, n, -1, checked, u, v, w, m, min);
+    vector<bool> checked(n, false);
+    ll ans = 2e18;
 
-    cout << min << endl;
+    dfs(0, n - 1, 0, checked, u, v, w, list, m, ans);
+
+    cout << ans << endl;
 }
